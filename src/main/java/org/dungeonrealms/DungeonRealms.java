@@ -2,6 +2,7 @@ package org.dungeonrealms;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.dungeonrealms.api.player.NetPlayer;
 import org.dungeonrealms.bungee.listener.BungeeListener;
 
 import java.util.logging.Level;

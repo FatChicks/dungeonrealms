@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Dr. Nick Doran on 5/19/2016.
  */
-public class RedisConnection extends Connection {
+class RedisConnection extends Connection {
 
     private String password;
     private String host;
@@ -36,7 +36,7 @@ public class RedisConnection extends Connection {
         this.timeUnit = timeUnit;
 
         this.asyncConnection = new RedisClient(RedisURI.create(new URI("redis://:" + getPassword() + "@" + getHost() + ":" + String.valueOf(getPort())))).connectAsync();
-        this.asyncConnection.setTimeout(getTimeOut(), getTimeUnit());
+        getAsyncConnection().setTimeout(getTimeOut(), getTimeUnit());
     }
 
     @Override
@@ -92,5 +92,25 @@ public class RedisConnection extends Connection {
         return null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        RedisConnection that = (RedisConnection) o;
+
+        return port == that.port && timeOut == that.timeOut && (password != null ? password.equals(that.password) : that.password == null && (host != null ? host.equals(that.host) : that.host == null && timeUnit == that.timeUnit && (asyncConnection != null ? asyncConnection.equals(that.asyncConnection) : that.asyncConnection == null)));
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = password != null ? password.hashCode() : 0;
+        result = 31 * result + (host != null ? host.hashCode() : 0);
+        result = 31 * result + port;
+        result = 31 * result + (int) (timeOut ^ (timeOut >>> 32));
+        result = 31 * result + (timeUnit != null ? timeUnit.hashCode() : 0);
+        result = 31 * result + (asyncConnection != null ? asyncConnection.hashCode() : 0);
+        return result;
+    }
 }

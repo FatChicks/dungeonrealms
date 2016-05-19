@@ -1,3 +1,6 @@
+import org.bukkit.Bukkit;
+import org.dungeonrealms.api.player.NetPlayer;
+
 import java.util.logging.Logger;
 
 /**
@@ -8,6 +11,7 @@ public class Test {
     private static final Logger log = Logger.getLogger(Test.class.getName());
 
     public static void main(String[] args) {
+        NetPlayer p = () -> Bukkit.getPlayer("test");
     }
 
 }
