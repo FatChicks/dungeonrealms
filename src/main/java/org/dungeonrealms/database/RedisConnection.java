@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 /**
  * Created by Dr. Nick Doran on 5/19/2016.
  */
-class RedisConnection extends Connection {
+public class RedisConnection extends Connection {
 
     private static final Logger log = Logger.getLogger(RedisConnection.class.getName());
 
@@ -26,7 +26,7 @@ class RedisConnection extends Connection {
     private long timeOut;
     private TimeUnit timeUnit;
 
-    private RedisAsyncConnection<String, String> asyncConnection;
+    private volatile RedisAsyncConnection<String, String> asyncConnection;
 
     /**
      * @param password The password.
@@ -70,7 +70,7 @@ class RedisConnection extends Connection {
     }
 
     @Override
-    protected RedisAsyncConnection<String, String> getAsyncConnection() {
+    public RedisAsyncConnection<String, String> getAsyncConnection() {
         if (Preconditions.validAsyncConnection(this.asyncConnection)) {
             return this.asyncConnection;
         } else {

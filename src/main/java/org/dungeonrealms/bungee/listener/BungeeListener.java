@@ -5,7 +5,6 @@ import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.dungeonrealms.DungeonRealms;
 import org.dungeonrealms.api.events.ReceivePartyInformation;
 import org.dungeonrealms.utils.Preconditions;
 
@@ -17,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class BungeeListener implements PluginMessageListener {
 
-    private static final Logger log = Logger.getLogger(DungeonRealms.class.getName());
+    private static final Logger log = Logger.getLogger(BungeeListener.class.getName());
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {

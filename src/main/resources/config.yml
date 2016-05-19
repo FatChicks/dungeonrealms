@@ -1,4 +1,5 @@
 redis:
+    password: "password"
     host: "localhost"
     port: 6379
     preventTimeout: true
