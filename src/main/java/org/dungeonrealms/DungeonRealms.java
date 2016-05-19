@@ -17,15 +17,18 @@ public class DungeonRealms extends JavaPlugin {
     public void onEnable() {
         log.log(Level.INFO, "Starting up ...");
 
+        saveDefaultConfig();
+
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
+        //Custom Bungee Messaging Channels.
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "DungeonRealms");
         Bukkit.getMessenger().registerIncomingPluginChannel(this, "DungeonRealms", new BungeeListener());
 
     }
 
     public void onDisable() {
-
+        saveConfig();
     }
 
 }

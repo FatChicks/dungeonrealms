@@ -9,6 +9,7 @@ import org.dungeonrealms.DungeonRealms;
 import org.dungeonrealms.api.events.ReceivePartyInformation;
 import org.dungeonrealms.utils.Preconditions;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -27,6 +28,7 @@ public class BungeeListener implements PluginMessageListener {
 
         switch (var1.toLowerCase()) {
             case "party":
+                log.log(Level.INFO, "H {0}", "hi");
                 //TODO: Break down byte stream.
                 String playerName = in.readUTF();
                 Bukkit.getServer().getPluginManager().callEvent(new ReceivePartyInformation(playerName));
