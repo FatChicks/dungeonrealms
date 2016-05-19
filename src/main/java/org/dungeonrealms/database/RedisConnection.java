@@ -4,16 +4,21 @@ import com.lambdaworks.redis.RedisAsyncConnection;
 import com.lambdaworks.redis.RedisClient;
 import com.lambdaworks.redis.RedisURI;
 import org.dungeonrealms.utils.Preconditions;
+import org.dungeonrealms.utils.exceptions.AsyncConcurrentException;
 import org.dungeonrealms.utils.exceptions.AsyncConnectionException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Dr. Nick Doran on 5/19/2016.
  */
 class RedisConnection extends Connection {
+
+    private static final Logger log = Logger.getLogger(RedisConnection.class.getName());
 
     private String password;
     private String host;
@@ -78,16 +83,26 @@ class RedisConnection extends Connection {
      * @return The newly connected async database object.
      */
     private RedisAsyncConnection<String, String> connect() {
-        try {
-            this.asyncConnection = new RedisClient(RedisURI.create(new URI("redis://:" + getPassword() + "@" + getHost() + ":" + String.valueOf(getPort())))).connectAsync();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        try {
-            throw new AsyncConnectionException("Cannot allocate new asynchronous connection.");
-        } catch (AsyncConnectionException e) {
-            e.printStackTrace();
-            //TODO: Lock server and prepare for local caching.
+        log.log(Level.INFO, "RedisConnection {0} .. Invoked Connect() Method.", hashCode());
+        if (!Preconditions.validAsyncConnection(getAsyncConnection())) {
+            try {
+                this.asyncConnection = new RedisClient(RedisURI.create(new URI("redis://:" + getPassword() + "@" + getHost() + ":" + String.valueOf(getPort())))).connectAsync();
+                return getAsyncConnection();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+                try {
+                    throw new AsyncConnectionException("Cannot allocate new asynchronous connection.");
+                } catch (AsyncConnectionException e1) {
+                    e1.printStackTrace();
+                    //TODO: Login Prevention, Lock & Caching.
+                }
+            }
+        } else {
+            try {
+                throw new AsyncConcurrentException("Connection is still healthy");
+            } catch (AsyncConcurrentException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
