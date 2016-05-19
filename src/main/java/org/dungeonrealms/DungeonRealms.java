@@ -13,9 +13,12 @@ import java.util.logging.Logger;
 public class DungeonRealms extends JavaPlugin {
 
     private static final Logger log = Logger.getLogger(DungeonRealms.class.getName());
+    private static DungeonRealms instance;
 
     public void onEnable() {
         log.log(Level.INFO, "Starting up ...");
+
+        instance = this;
 
         saveDefaultConfig();
 
@@ -31,4 +34,7 @@ public class DungeonRealms extends JavaPlugin {
         saveConfig();
     }
 
+    public static DungeonRealms getInstance() {
+        return instance;
+    }
 }

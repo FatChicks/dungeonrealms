@@ -2,6 +2,8 @@ package org.dungeonrealms.database;
 
 import com.lambdaworks.redis.RedisAsyncConnection;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Dr. Nick Doran on 5/19/2016.
  */
@@ -13,7 +15,9 @@ abstract class Connection {
 
     protected abstract int getPort();
 
-    protected abstract boolean checkOnReference();
+    protected abstract long getTimeOut();
+
+    protected abstract TimeUnit getTimeUnit();
 
     protected abstract RedisAsyncConnection<String, String> getAsyncConnection();
 
