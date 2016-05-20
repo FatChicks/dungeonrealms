@@ -15,7 +15,7 @@ public class Tier {
     /**
      * Tier Enum.
      */
-    enum TierType {
+    public enum TierType {
         TIER_1(1, "Tier 1"),
         TIER_2(2, "Tier 2"),
         TIER_3(3, "Tier 3"),
