@@ -41,7 +41,14 @@ public class CommandHistory implements CommandExecutor {
                     }
                     player.sendMessage("                      " + ChatColor.YELLOW.toString() + ChatColor.BOLD + "History of " + ChatColor.AQUA.toString() + ChatColor.BOLD + settlement.getName());
                     player.sendMessage("");
-                    player.sendMessage(desc);
+                    for (String s : desc) {
+                        player.sendMessage(s);
+                    }
+                    /*
+                    Sending as  player.sendMessage(String[]) causes chat to not pop up,
+                    rather the chat slides under and player must click 'T' or chat button
+                    to open it, this method for(String s : par) opens chat.
+                     */
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1f, 63f);
                     return true;
                 } else {
