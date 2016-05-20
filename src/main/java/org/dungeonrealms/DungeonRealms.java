@@ -8,6 +8,7 @@ import org.dungeonrealms.commands.CommandDungeonRealms;
 import org.dungeonrealms.database.NetCache;
 import org.dungeonrealms.database.RedisConnection;
 import org.dungeonrealms.listeners.PreconditionsEvents;
+import org.dungeonrealms.listeners.TempEvents;
 
 import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
@@ -48,6 +49,11 @@ public class DungeonRealms extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
 
         pm.registerEvents(new PreconditionsEvents(), this);
+
+        //This listener will be removed.
+        //Using this to stop actions on the map whilst
+        //Testing.
+        pm.registerEvents(new TempEvents(), this);
 
         getCommand("dungeonrealms").setExecutor(new CommandDungeonRealms());
 
