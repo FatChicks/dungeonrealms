@@ -2,3 +2,7 @@ name: DungeonRealms
 main: org.dungeonrealms.DungeonRealms
 version: 1.0
 author: Nick Doran
+commands:
+    dungeonrealms:
+        usage: /dungeonrealms <args...>
+        aliases: [dr, dungeon, realms]

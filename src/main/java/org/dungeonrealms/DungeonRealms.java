@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dungeonrealms.bungee.listener.BungeeListener;
+import org.dungeonrealms.commands.CommandDungeonRealms;
 import org.dungeonrealms.database.NetCache;
 import org.dungeonrealms.database.RedisConnection;
 import org.dungeonrealms.listeners.PreconditionsEvents;
@@ -48,6 +49,8 @@ public class DungeonRealms extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
 
         pm.registerEvents(new PreconditionsEvents(), this);
+
+        getCommand("dungeonrealms").setExecutor(new CommandDungeonRealms());
 
     }
 
