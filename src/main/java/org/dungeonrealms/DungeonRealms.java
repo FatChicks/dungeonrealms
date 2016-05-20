@@ -23,7 +23,6 @@ public class DungeonRealms extends JavaPlugin {
     private static NetCache netCache;
     private static DungeonRealms instance;
 
-    @SuppressWarnings("SqlNoDataSourceInspection")
     public void onEnable() {
         log.log(Level.INFO, "Starting up ...");
 

@@ -11,11 +11,16 @@ public class Tier {
     private static final int TIER_4 = 40;
     private static final int TIER_5 = 100;
 
-
     /**
      * Tier Enum.
      */
     public enum TierType {
+
+        /**
+         * Used for misc reasons.
+         */
+        TIER_0(0, "Tier 0"),
+
         TIER_1(1, "Tier 1"),
         TIER_2(2, "Tier 2"),
         TIER_3(3, "Tier 3"),
@@ -39,14 +44,20 @@ public class Tier {
         }
 
         /**
-         * @param tier Integer representation of tier(1,2,3,4,5)
+         * @param num Integer num.
          * @return TierType enum associated with value.
          */
-        public static TierType getByInt(int tier) {
-            for (TierType tt : values()) {
-                if (tt.getId() == tier) {
-                    return tt;
-                }
+        public static TierType getByInt(int num) {
+            if (num <= 10) {
+                return TIER_1;
+            } else if (num <= 20) {
+                return TIER_2;
+            } else if (num <= 30) {
+                return TIER_3;
+            } else if (num <= 40) {
+                return TIER_4;
+            } else if (num <= 100) {
+                return TIER_5;
             }
             return null;
         }

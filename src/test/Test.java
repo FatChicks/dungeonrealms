@@ -1,6 +1,8 @@
 import org.bukkit.Bukkit;
 import org.dungeonrealms.api.player.NetPlayer;
+import org.dungeonrealms.game.tier.Tier;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
