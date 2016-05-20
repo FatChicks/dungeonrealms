@@ -8,7 +8,7 @@ import org.bukkit.Location;
  */
 public class Area {
 
-    private double x, z;
+    private double x, y = -20, z;
 
     /**
      * @param x The chunk's X
@@ -16,6 +16,12 @@ public class Area {
      */
     public Area(double x, double z) {
         this.x = x;
+        this.z = z;
+    }
+
+    public Area(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
         this.z = z;
     }
 
@@ -27,11 +33,15 @@ public class Area {
         return z;
     }
 
+    public double getY() {
+        return y;
+    }
+
     /**
      * @param y The Y you want.
      * @return The primary location w/ your Y.
      */
     public Location getLocation(double y) {
-        return new Location(Bukkit.getWorlds().get(0), getX(), y, getZ());
+        return new Location(Bukkit.getWorlds().get(0), getX(), getY() == -20 ? getY() : Bukkit.getWorlds().get(0).getHighestBlockAt((int) getX(), (int) getZ()).getY(), getZ());
     }
 }

@@ -1,0 +1,13 @@
+{
+  "existence": 1463777086,
+  "name": "Vampyric Ancient Sword of Fire",
+  "stats": {
+    "damageMin": 70,
+    "damageMax": 106,
+    "strength": 7,
+    "life_steal": 4,
+    "fire_damage": 12
+  },
+  "durability": 205,
+  "maxDurability": 1500
+}

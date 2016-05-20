@@ -2,7 +2,25 @@ name: DungeonRealms
 main: org.dungeonrealms.DungeonRealms
 version: 1.0
 author: Nick Doran
+depend: [WorldGuard]
 commands:
     dungeonrealms:
+        description: Master command. Not generial purpose. Yet.
+        permissions: org.dungeonrealms.commands.dungeonrealms
         usage: /dungeonrealms <args...>
         aliases: [dr, dungeon, realms]
+    history:
+        description: Type anywhere to view a slice of history!
+        permissions: org.dungeonrealms.commands.history
+        usage: /history
+        aliases: [hustary, hestary]
+    teleport:
+        description: Utilities command for GM/Builders.
+        permissions: org.dungeonrealms.commands.teleport
+        usage: /teleport <args...>
+        aliases: [telepert, talapart]
+    notify:
+        description: The notify command.
+        permissions: org.dungeonrealms.commands.notify
+        usage: /notify <args...>
+        aliases: [notification, nutify, noteify]

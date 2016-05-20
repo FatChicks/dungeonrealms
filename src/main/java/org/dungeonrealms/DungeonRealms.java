@@ -1,10 +1,16 @@
 package org.dungeonrealms;
 
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.dungeonrealms.api.bar.BarUtils;
 import org.dungeonrealms.bungee.listener.BungeeListener;
 import org.dungeonrealms.commands.CommandDungeonRealms;
+import org.dungeonrealms.commands.CommandHistory;
+import org.dungeonrealms.commands.CommandNotify;
+import org.dungeonrealms.commands.CommandTeleport;
 import org.dungeonrealms.database.NetCache;
 import org.dungeonrealms.database.RedisConnection;
 import org.dungeonrealms.listeners.PreconditionsEvents;
@@ -23,6 +29,8 @@ public class DungeonRealms extends JavaPlugin {
     private static final Logger log = Logger.getLogger(DungeonRealms.class.getName());
     private static NetCache netCache;
     private static DungeonRealms instance;
+
+    private String nmsVers;
 
     public void onEnable() {
         log.log(Level.INFO, "Starting up ...");
@@ -56,6 +64,14 @@ public class DungeonRealms extends JavaPlugin {
         pm.registerEvents(new TempEvents(), this);
 
         getCommand("dungeonrealms").setExecutor(new CommandDungeonRealms());
+        getCommand("history").setExecutor(new CommandHistory());
+        getCommand("teleport").setExecutor(new CommandTeleport());
+        getCommand("notify").setExecutor(new CommandNotify());
+
+        nmsVers = Bukkit.getServer().getClass().getPackage().getName();
+        nmsVers = nmsVers.substring(nmsVers.lastIndexOf(".") + 1);
+
+        BarUtils.init();//TODO: Remove
 
     }
 
@@ -69,5 +85,20 @@ public class DungeonRealms extends JavaPlugin {
 
     public static NetCache getNet() {
         return netCache;
+    }
+
+    public String getNmsVers() {
+        return nmsVers;
+    }
+
+    /**
+     * @return Get the WorldGuard plugin.
+     */
+    public static WorldGuardPlugin getWorldGuard() {
+        Plugin plugin = DungeonRealms.getInstance().getServer().getPluginManager().getPlugin("WorldGuard");
+        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+            return null;
+        }
+        return (WorldGuardPlugin) plugin;
     }
 }

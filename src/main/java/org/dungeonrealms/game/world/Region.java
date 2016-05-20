@@ -19,7 +19,7 @@ public enum Region {
      * Whilst few and far between, these 'safezones' often contain banks, merchants, and other useful aspects that make them invaluable to the player.
      */
 
-    CYRENNICA(10, "Cyrennica", new AreaDifficulty[]{}, PrimaryZone.SAFEZONE, new Area(-365, 376), Inhabitants.HUMAN_TRIBES),
+    CYRENNICA(10, "Cyrennica", new AreaDifficulty[]{}, PrimaryZone.SAFEZONE, new Area(-365, 83, 376), Inhabitants.HUMAN_TRIBES),
     HARRISONS_FIELD(11, "Harrisons Field", new AreaDifficulty[]{}, PrimaryZone.SAFEZONE, new Area(-1, -1), Inhabitants.BANDIT),;
 
     private int id;
