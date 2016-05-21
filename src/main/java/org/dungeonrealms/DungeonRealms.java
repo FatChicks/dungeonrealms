@@ -59,7 +59,7 @@ public class DungeonRealms extends JavaPlugin {
         pm.registerEvents(new PreconditionsEvents(), this);
 
         //This listener will be removed.
-        //Using this to stop actions on the map whilst
+        //Using this to stop actions on 7the map whilst
         //Testing.
         pm.registerEvents(new TempEvents(), this);
 

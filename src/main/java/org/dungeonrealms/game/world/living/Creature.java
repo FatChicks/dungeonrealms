@@ -16,6 +16,4 @@ public abstract class Creature {
 
     abstract Tier.TierType getTier();
 
-    abstract int getSpawnRadius(); //0 for exact.
-
 }
