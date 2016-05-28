@@ -71,18 +71,25 @@ public class RedisConnection extends Connection {
 
     @Override
     public RedisAsyncConnection<String, String> getAsyncConnection() {
-        if (Preconditions.validAsyncConnection(this.asyncConnection)) {
-            return this.asyncConnection;
-        } else {
-            this.asyncConnection = connect();
-            return getAsyncConnection();
+        try {
+            if (Preconditions.validAsyncConnection(this.asyncConnection)) {
+                return this.asyncConnection;
+            }
+        } catch (AsyncConnectionException e) {
+            e.printStackTrace();
         }
+        try {
+            this.asyncConnection = connect();
+        } catch (AsyncConcurrentException | AsyncConnectionException e) {
+            e.printStackTrace();
+        }
+        return getAsyncConnection();
     }
 
     /**
      * @return The newly connected async database object.
      */
-    private RedisAsyncConnection<String, String> connect() {
+    private RedisAsyncConnection<String, String> connect() throws AsyncConcurrentException, AsyncConnectionException {
         log.log(Level.INFO, "RedisConnection {0} .. Invoked Connect() Method.", hashCode());
         if (!Preconditions.validAsyncConnection(getAsyncConnection())) {
             try {
@@ -90,19 +97,9 @@ public class RedisConnection extends Connection {
                 return getAsyncConnection();
             } catch (URISyntaxException e) {
                 e.printStackTrace();
-                try {
-                    throw new AsyncConnectionException("Cannot allocate new asynchronous connection.");
-                } catch (AsyncConnectionException e1) {
-                    e1.printStackTrace();
-                    //TODO: Login Prevention, Lock & Caching.
-                }
             }
         } else {
-            try {
-                throw new AsyncConcurrentException("Connection is still healthy");
-            } catch (AsyncConcurrentException e) {
-                e.printStackTrace();
-            }
+            throw new AsyncConcurrentException("Connection is still healthy");
         }
         return null;
     }

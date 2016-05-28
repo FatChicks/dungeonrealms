@@ -33,14 +33,9 @@ public class Preconditions {
      * @param asyncConnection The asynchronous connection.
      * @return True, if the connection is valid.
      */
-    public static boolean validAsyncConnection(RedisAsyncConnection<String, String> asyncConnection) {
+    public static boolean validAsyncConnection(RedisAsyncConnection<String, String> asyncConnection) throws AsyncConnectionException {
         if (!asyncConnection.isOpen()) {
-            try {
-                throw new AsyncConnectionException("Async Connection timeout");
-            } catch (AsyncConnectionException e) {
-                e.printStackTrace();
-            }
-            return false;
+            throw new AsyncConnectionException("Async Connection timeout");
         }
         return true;
     }

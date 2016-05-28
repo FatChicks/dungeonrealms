@@ -7,6 +7,13 @@ import org.dungeonrealms.game.tier.Tier;
  */
 public enum Settlements {
 
+    TUTORIAL_ISLAND(-1, "Tutorial Island", "tutorial_island", new String[]{
+            "The Dungeon Realms Tutorial Island is where all new players go",
+            "when they first join the Dungeon Realms experience.",
+            "It is an island that is off the coast of Cyrennica's waters and contains",
+            "many different NPC's which explain the mechanics of Dungeon Realms.",
+    }, new Area(969.5, 32, -179.5), new Tier.TierType[]{}, PrimaryZone.SAFEZONE, new Inhabitants[]{}),
+
     CYRENNICA(0, "Cyrennica", "cityofcyrennica", new String[]{
             "Around 120 AMi is when the first human city in Andalucia was built by the second generation of Andalaucians.",
             "It was built by the first crowned Leader of the tribes, Thelogian. He named the city after the name of his wife, Cyrennica.",
