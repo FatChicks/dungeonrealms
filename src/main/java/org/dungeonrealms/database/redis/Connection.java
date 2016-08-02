@@ -1,4 +1,4 @@
-package org.dungeonrealms.database;
+package org.dungeonrealms.database.redis;
 
 import com.lambdaworks.redis.RedisAsyncConnection;
 
@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Dr. Nick Doran on 5/19/2016.
  */
-abstract class Connection {
+public abstract class Connection {
 
     protected abstract String getPassword();
 

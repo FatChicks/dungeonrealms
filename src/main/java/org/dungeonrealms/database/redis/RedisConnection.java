@@ -1,4 +1,4 @@
-package org.dungeonrealms.database;
+package org.dungeonrealms.database.redis;
 
 import com.lambdaworks.redis.RedisAsyncConnection;
 import com.lambdaworks.redis.RedisClient;

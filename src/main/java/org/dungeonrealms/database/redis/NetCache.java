@@ -1,4 +1,4 @@
-package org.dungeonrealms.database;
+package org.dungeonrealms.database.redis;
 
 /**
  * Created by Dr. Nick Doran on 5/19/2016.

@@ -1,3 +1,9 @@
+mysql:
+    host: ""
+    userName: ""
+    password: ""
+    database: ""
+    port: 3306
 redis:
     password: "password"
     host: "localhost"

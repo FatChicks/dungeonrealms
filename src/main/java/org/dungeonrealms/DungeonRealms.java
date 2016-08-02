@@ -11,13 +11,12 @@ import org.dungeonrealms.commands.CommandDungeonRealms;
 import org.dungeonrealms.commands.CommandHistory;
 import org.dungeonrealms.commands.CommandNotify;
 import org.dungeonrealms.commands.CommandTeleport;
-import org.dungeonrealms.database.NetCache;
-import org.dungeonrealms.database.RedisConnection;
+import org.dungeonrealms.database.mysql.Database;
+import org.dungeonrealms.database.redis.NetCache;
+import org.dungeonrealms.game.Game;
 import org.dungeonrealms.listeners.PreconditionsEvents;
 import org.dungeonrealms.listeners.TempEvents;
 
-import java.net.URISyntaxException;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +39,7 @@ public class DungeonRealms extends JavaPlugin {
         saveDefaultConfig();
 
         //Connect to database.
+        /*
         try {
             netCache = new NetCache(new RedisConnection(getConfig().getString("redis.password"), getConfig().getString("redis.host"), getConfig().getInt("redis.port"), 5, TimeUnit.HOURS));
         } catch (URISyntaxException e) {
@@ -47,6 +47,10 @@ public class DungeonRealms extends JavaPlugin {
             Bukkit.shutdown();
             return;
         }
+         */
+
+        Database.getInstance().Connect();
+        Game.GetPrerequisites();
 
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
