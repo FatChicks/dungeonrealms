@@ -116,7 +116,7 @@ public class Database {
                     }
                 } else {
                     addPlayer(uuid, userName);
-                    getGamePlayer(uuid, userName, null);
+                    getGamePlayer(uuid, userName, gp);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -129,22 +129,12 @@ public class Database {
      * @param userName The player's String userName.
      */
     private void addPlayer(UUID uuid, String userName) {
-        pool.submit(() -> {
-            String query = new Query().Insert().Into().Table("players").Parenthesis("uuid", "username").Values("'" + uuid.toString() + "'", "'" + userName + "'").End().getQuery();
-            try {
-                getConnection().getDatabase().prepareStatement(query).executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            getIdByName(userName, id -> {
-                String query1 = new Query().Insert().Into().Table("player_cache").Parenthesis("player_id").Values(id).End().getQuery();
-                try {
-                    getConnection().getDatabase().prepareStatement(query1).executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-        });
+        String query = new Query().Insert().Into().Table("players").Parenthesis("uuid", "username").Values("'" + uuid.toString() + "'", "'" + userName + "'").End().getQuery();
+        try {
+            getConnection().getDatabase().prepareStatement(query).executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -152,17 +142,15 @@ public class Database {
      * @param id       The player's id.
      */
     private void getIdByName(String userName, Consumer<Integer> id) {
-        pool.submit(() -> {
-            String query = new Query().Select().Field("player_id").From().Table("players").Where().Field("username").Equals().asString(userName).End().getQuery();
-            try (
-                    PreparedStatement statement = getConnection().getDatabase().prepareStatement(query);
-                    ResultSet result = statement.executeQuery();
-            ) {
-                id.accept(result.getInt("player_id"));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+        String query = new Query().Select().Field("player_id").From().Table("players").Where().Field("username").Equals().asString(userName).End().getQuery();
+        try (
+                PreparedStatement statement = getConnection().getDatabase().prepareStatement(query);
+                ResultSet result = statement.executeQuery();
+        ) {
+            id.accept(result.getInt("player_id"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
