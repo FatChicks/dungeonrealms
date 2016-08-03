@@ -1,8 +1,8 @@
 mysql:
-    host: ""
-    userName: ""
-    password: ""
-    database: ""
+    host: "104.196.37.201"
+    userName: "root"
+    password: "M9KoGocA"
+    database: "dungeonrealms"
     port: 3306
 redis:
     password: "password"

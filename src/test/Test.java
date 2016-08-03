@@ -1,7 +1,6 @@
-import org.bukkit.Bukkit;
-import org.dungeonrealms.api.player.NetPlayer;
-import org.dungeonrealms.game.tier.Tier;
+import org.dungeonrealms.database.mysql.utils.Query;
 
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,7 +12,12 @@ public class Test {
     private static final Logger log = Logger.getLogger(Test.class.getName());
 
     public static void main(String[] args) {
-        NetPlayer p = () -> Bukkit.getPlayer("test");
+
+        UUID uuid = UUID.randomUUID();
+        String userName = "Shmozo";
+
+        String query = new Query().Insert().Into().Table("players").Parenthesis("uuid", "username").Values("'" + uuid.toString() + "'", "'" + userName + "'").End().getQuery();
+        System.out.println(query);
     }
 
 }

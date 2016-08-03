@@ -34,7 +34,7 @@ public class CommandTeleport implements CommandExecutor {
             if (settlements != null) {
                 Area area = settlements.getArea();
                 if (area != null) {
-                    player.teleport(area.getLocation(80));
+                    player.teleport(area.getLocation(-20));
                     player.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "You teleported to " + ChatColor.AQUA.toString() + ChatColor.BOLD + settlements.getName());
                     return true;
                 }

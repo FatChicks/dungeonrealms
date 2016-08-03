@@ -11,6 +11,16 @@ public class Query {
         query = "";
     }
 
+    public Query Parenthesis(Object... obj) {
+        query += "(";
+        for (Object o : obj) {
+            query += o + ",";
+        }
+        query = query.endsWith(",") ? query.substring(0, query.lastIndexOf(",")) : query;
+        query += ")" + " ";
+        return this;
+    }
+
     public Query Values(Object... obj) {
         query += "VALUES" + " ";
         query += "(";

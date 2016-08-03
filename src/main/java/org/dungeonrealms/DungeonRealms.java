@@ -14,7 +14,7 @@ import org.dungeonrealms.commands.CommandTeleport;
 import org.dungeonrealms.database.mysql.Database;
 import org.dungeonrealms.database.redis.NetCache;
 import org.dungeonrealms.game.Game;
-import org.dungeonrealms.listeners.PreconditionsEvents;
+import org.dungeonrealms.listeners.PlayerEvents;
 import org.dungeonrealms.listeners.TempEvents;
 
 import java.util.logging.Level;
@@ -39,15 +39,6 @@ public class DungeonRealms extends JavaPlugin {
         saveDefaultConfig();
 
         //Connect to database.
-        /*
-        try {
-            netCache = new NetCache(new RedisConnection(getConfig().getString("redis.password"), getConfig().getString("redis.host"), getConfig().getInt("redis.port"), 5, TimeUnit.HOURS));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            Bukkit.shutdown();
-            return;
-        }
-         */
 
         Database.getInstance().Connect();
         Game.GetPrerequisites();
@@ -60,12 +51,13 @@ public class DungeonRealms extends JavaPlugin {
 
         PluginManager pm = Bukkit.getPluginManager();
 
-        pm.registerEvents(new PreconditionsEvents(), this);
+        //pm.registerEvents(new PreconditionsEvents(), this);
 
         //This listener will be removed.
         //Using this to stop actions on 7the map whilst
         //Testing.
         pm.registerEvents(new TempEvents(), this);
+        pm.registerEvents(new PlayerEvents(), this);
 
         getCommand("dungeonrealms").setExecutor(new CommandDungeonRealms());
         getCommand("history").setExecutor(new CommandHistory());
