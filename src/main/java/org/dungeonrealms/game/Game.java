@@ -27,6 +27,10 @@ public class Game {
         }));
     }
 
+    public static GamePlayer getGamePlayer(UUID uuid) {
+        return players.get(uuid);
+    }
+
     public static void addPlayer(UUID uuid, String userName) {
         Database.getInstance().getGamePlayer(uuid, userName, gp -> players.put(uuid, gp));
     }

@@ -3,6 +3,9 @@ package org.dungeonrealms.game.player;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.dungeonrealms.game.achievement.GameAchievement;
+import org.dungeonrealms.game.chat.Chat;
+import org.dungeonrealms.game.chat.ChatType;
+import org.dungeonrealms.game.rank.RankType;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,6 +28,9 @@ public class GamePlayer {
     private int gems;
     private int guild;
 
+    private Chat chat;
+    private RankType rankType;
+
     /**
      * @param id           The player's unique id.
      * @param uuid         The player's uuid.
@@ -34,7 +40,7 @@ public class GamePlayer {
      * @param cache        The player's cached location.
      * @param achievements The player's achievements.
      */
-    public GamePlayer(int id, UUID uuid, String userName, int level, double experience, PlayerCache cache, List<GameAchievement> achievements, int gems, int guild) {
+    public GamePlayer(int id, UUID uuid, String userName, int level, double experience, PlayerCache cache, List<GameAchievement> achievements, int gems, int guild, RankType rankType) {
         this.id = id;
         this.uuid = uuid;
         this.userName = userName;
@@ -44,6 +50,8 @@ public class GamePlayer {
         this.achievements = achievements;
         this.gems = gems;
         this.guild = guild;
+        this.chat = new Chat(ChatType.LOCAL);
+        this.rankType = rankType;
     }
 
     public int getId() {
@@ -80,6 +88,14 @@ public class GamePlayer {
 
     public int getGuild() {
         return guild;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public RankType getRankType() {
+        return rankType;
     }
 
     public void addGems(int gems) {

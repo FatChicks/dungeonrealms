@@ -12,6 +12,7 @@ import org.dungeonrealms.game.guild.GuildSettings;
 import org.dungeonrealms.game.player.FakePlayer;
 import org.dungeonrealms.game.player.GamePlayer;
 import org.dungeonrealms.game.player.PlayerCache;
+import org.dungeonrealms.game.rank.RankType;
 import org.dungeonrealms.io.IOUtils;
 
 import java.io.BufferedReader;
@@ -207,7 +208,8 @@ public class Database {
                         List<GameAchievement> achievements = getPlayerAchievements(playerId);
                         int gems = result.getInt("gems");
                         int guild = result.getInt("guild");
-                        gp.accept(new GamePlayer(playerId, playerUuid, _userName, level, experience, cache, achievements, gems, guild));
+                        RankType rankType = RankType.getByName(result.getString("rank"));
+                        gp.accept(new GamePlayer(playerId, playerUuid, _userName, level, experience, cache, achievements, gems, guild, rankType));
                     }
                 } else {
                     addPlayer(uuid, userName);
