@@ -157,6 +157,8 @@ public class Database {
                 e.printStackTrace();
             }
 
+            g.accept(guild);
+
         });
     }
 
