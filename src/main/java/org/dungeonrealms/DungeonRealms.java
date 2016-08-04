@@ -55,7 +55,6 @@ public class DungeonRealms extends JavaPlugin {
         //This listener will be removed.
         //Using this to stop actions on 7the map whilst
         //Testing.
-        pm.registerEvents(new TempEvents(), this);
         pm.registerEvents(new PlayerEvents(), this);
 
         getCommand("dungeonrealms").setExecutor(new CommandDungeonRealms());

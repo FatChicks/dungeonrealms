@@ -1,6 +1,7 @@
 package org.dungeonrealms.listeners;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -11,12 +12,12 @@ import org.dungeonrealms.game.Game;
  */
 public class PlayerEvents implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onAsyncJoin(AsyncPlayerPreLoginEvent event) {
         Game.addPlayer(event.getUniqueId(), event.getName());
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onQuit(PlayerQuitEvent event) {
         Game.removePlayer(event.getPlayer().getUniqueId());
     }
