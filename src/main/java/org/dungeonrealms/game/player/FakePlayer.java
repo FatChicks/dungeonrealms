@@ -1,5 +1,7 @@
 package org.dungeonrealms.game.player;
 
+import org.dungeonrealms.database.mysql.Database;
+
 import java.util.UUID;
 
 /**
@@ -10,6 +12,14 @@ public class FakePlayer {
     private int id;
     private UUID uuid;
     private String name;
+
+    public FakePlayer(int id) {
+        this.id = id;
+        new Thread(() -> {
+            this.uuid = Database.getInstance().getUuidById(id);
+            this.name = Database.getInstance().getNameById(id);
+        }, "FakePlayer(" + String.valueOf(id) + ")");
+    }
 
     public FakePlayer(int id, UUID uuid, String name) {
         this.id = id;

@@ -8,11 +8,17 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Dr. Nick Doran on 5/19/2016.
  */
 public class IOUtils {
+
+    public static List<ItemStack> itemListFromString(String par1) {
+        //todo: do
+        return null;
+    }
 
     /**
      * @param base64String The base64 String of a ItemStack object.

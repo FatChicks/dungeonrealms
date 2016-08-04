@@ -25,7 +25,6 @@ public class ItemStat {
 
         ;
 
-
         private int id;
         private String name;
 

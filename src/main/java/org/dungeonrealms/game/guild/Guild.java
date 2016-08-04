@@ -20,6 +20,11 @@ public class Guild {
     private List<ItemStack> vault;
     private int gems;
 
+    private GuildSettings guildSettings;
+
+    public Guild() {
+    }
+
     /**
      * @param id         The guild's id.
      * @param tag        The guild's prefix tag.
@@ -29,7 +34,7 @@ public class Guild {
      * @param vault      The guild's vault.
      * @param gems       The guild's shared gem collection.
      */
-    public Guild(int id, String tag, FakePlayer owner, List<FakePlayer> moderators, List<FakePlayer> members, List<ItemStack> vault, int gems) {
+    public Guild(int id, String tag, FakePlayer owner, List<FakePlayer> moderators, List<FakePlayer> members, List<ItemStack> vault, int gems, GuildSettings settings) {
         this.id = id;
         this.tag = tag;
         this.owner = owner;
@@ -37,6 +42,7 @@ public class Guild {
         this.members = members;
         this.vault = vault;
         this.gems = gems;
+        this.guildSettings = settings;
     }
 
     public int getId() {
@@ -65,5 +71,51 @@ public class Guild {
 
     public int getGems() {
         return gems;
+    }
+
+    public GuildSettings getGuildSettings() {
+        return guildSettings;
+    }
+
+    public void addModerator(FakePlayer fakePlayer) {
+        this.moderators.add(fakePlayer);
+    }
+
+    public void addMember(FakePlayer fakePlayer) {
+        this.members.add(fakePlayer);
+    }
+
+    // Setters
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public void setOwner(FakePlayer owner) {
+        this.owner = owner;
+    }
+
+    public void setModerators(List<FakePlayer> moderators) {
+        this.moderators = moderators;
+    }
+
+    public void setMembers(List<FakePlayer> members) {
+        this.members = members;
+    }
+
+    public void setVault(List<ItemStack> vault) {
+        this.vault = vault;
+    }
+
+    public void setGems(int gems) {
+        this.gems = gems;
+    }
+
+    public void setGuildSettings(GuildSettings guildSettings) {
+        this.guildSettings = guildSettings;
     }
 }

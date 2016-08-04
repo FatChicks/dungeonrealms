@@ -23,6 +23,7 @@ public class GamePlayer {
     private List<GameAchievement> achievements;
 
     private int gems;
+    private int guild;
 
     /**
      * @param id           The player's unique id.
@@ -33,7 +34,7 @@ public class GamePlayer {
      * @param cache        The player's cached location.
      * @param achievements The player's achievements.
      */
-    public GamePlayer(int id, UUID uuid, String userName, int level, double experience, PlayerCache cache, List<GameAchievement> achievements, int gems) {
+    public GamePlayer(int id, UUID uuid, String userName, int level, double experience, PlayerCache cache, List<GameAchievement> achievements, int gems, int guild) {
         this.id = id;
         this.uuid = uuid;
         this.userName = userName;
@@ -42,6 +43,7 @@ public class GamePlayer {
         this.cache = cache;
         this.achievements = achievements;
         this.gems = gems;
+        this.guild = guild;
     }
 
     public int getId() {
@@ -74,6 +76,10 @@ public class GamePlayer {
 
     public int getGems() {
         return gems;
+    }
+
+    public int getGuild() {
+        return guild;
     }
 
     public void addGems(int gems) {

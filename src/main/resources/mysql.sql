@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `players`
   level      INT(11)     NOT NULL DEFAULT 0,
   experience DOUBLE      NOT NULL DEFAULT 0.0,
   gems       INT(11)     NOT NULL DEFAULT 0,
+  guild      INT(11)     NOT NULL DEFAULT -1,
   PRIMARY KEY (player_id)
 );
 CREATE TABLE IF NOT EXISTS `player_cache`
@@ -41,4 +42,26 @@ CREATE TABLE IF NOT EXISTS `guild_invitations`
   invited  INT         NOT NULL,
   time     BIGINT      NOT NULL,
   PRIMARY KEY (ID)
+);
+CREATE TABLE IF NOT EXISTS `guilds`
+(
+  guild_id INT                 AUTO_INCREMENT,
+  tag      VARCHAR(5) NOT NULL,
+  vault    MEDIUMTEXT NOT NULL,
+  gems     INT        NOT NULL DEFAULT 0,
+  PRIMARY KEY (guild_id)
+);
+CREATE TABLE IF NOT EXISTS `guild_members`
+(
+  ID        INT                                            AUTO_INCREMENT,
+  guild_id  INT                                   NOT NULL,
+  player_id INT                                   NOT NULL,
+  roll      ENUM ('member', 'moderator', 'owner') NOT NULL DEFAULT 'member',
+  PRIMARY KEY (ID)
+);
+CREATE TABLE IF NOT EXISTS `guild_settings`
+(
+  guild_id         INT NOT NULL,
+  notifyLogin      BOOL DEFAULT TRUE,
+  notifyLoginSound BOOL DEFAULT TRUE
 );

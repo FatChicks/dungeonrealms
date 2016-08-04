@@ -6,8 +6,13 @@ import org.dungeonrealms.database.mysql.utils.Query;
 import org.dungeonrealms.database.mysql.utils.ScriptRunner;
 import org.dungeonrealms.game.Game;
 import org.dungeonrealms.game.achievement.GameAchievement;
+import org.dungeonrealms.game.guild.Guild;
+import org.dungeonrealms.game.guild.GuildRoll;
+import org.dungeonrealms.game.guild.GuildSettings;
+import org.dungeonrealms.game.player.FakePlayer;
 import org.dungeonrealms.game.player.GamePlayer;
 import org.dungeonrealms.game.player.PlayerCache;
+import org.dungeonrealms.io.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -69,6 +74,93 @@ public class Database {
     }
 
     /**
+     * @param guildId The guild id.
+     * @param g       The returned Guild, harbored inside a Consumer.
+     */
+    public void getGuild(int guildId, Consumer<Guild> g) {
+        pool.submit(() -> {
+            String query = new Query().Select().All().From().Table("guilds").Where().Field("guild_id").Equals().asInt(guildId).End().getQuery();
+            String query1 = new Query().Select().All().From().Table("guild_members").Where().Field("guild_id").Equals().asInt(guildId).End().getQuery();
+            String query2 = new Query().Select().All().From().Table("guild_settings").Where().Field("guild_id").Equals().asInt(guildId).End().getQuery();
+            Guild guild = new Guild();
+            try (
+                    PreparedStatement statement = getConnection().getDatabase().prepareStatement(query);
+                    ResultSet result = statement.executeQuery();
+            ) {
+                if (!result.next()) {
+                    g.accept(null);
+                    return;
+                }
+
+                while (result.next()) {
+                    guild.setTag(result.getString("tag"));
+                    guild.setVault(IOUtils.itemListFromString(result.getString("vault")));
+                    guild.setGems(result.getInt("gems"));
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            /*
+            Get guild members
+             */
+
+            try (
+                    PreparedStatement statement = getConnection().getDatabase().prepareStatement(query1);
+                    ResultSet result = statement.executeQuery();
+            ) {
+                if (!result.next()) {
+                    return;
+                }
+                while (result.next()) {
+                    int playerId = result.getInt("player_id");
+                    GuildRoll roll = GuildRoll.getByName(result.getString("roll"));
+                    if (roll == null) {
+                        continue;
+                    }
+                    switch (roll) {
+                        case OWNER:
+                            guild.setOwner(new FakePlayer(playerId));
+                            break;
+                        case MODERATOR:
+                            guild.addModerator(new FakePlayer(playerId));
+                            break;
+                        case MEMBER:
+                            guild.addMember(new FakePlayer(playerId));
+                            break;
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            /*
+            Get guild settings
+             */
+            try (
+                    PreparedStatement statement = getConnection().getDatabase().prepareStatement(query2);
+                    ResultSet result = statement.executeQuery();
+            ) {
+                if (!result.next()) {
+                    return;
+                }
+
+                while (result.next()) {
+                    boolean notifyLogin = result.getBoolean("notifyLogin");
+                    boolean notifyLoginSound = result.getBoolean("notifyLoginSound");
+                    guild.setGuildSettings(new GuildSettings(notifyLogin, notifyLoginSound));
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        });
+    }
+
+    /**
      * @param ga A list of server achievements.
      */
     public void getServerAchievements(Consumer<List<GameAchievement>> ga) {
@@ -112,7 +204,8 @@ public class Database {
                         PlayerCache cache = getPlayerCache(playerId);
                         List<GameAchievement> achievements = getPlayerAchievements(playerId);
                         int gems = result.getInt("gems");
-                        gp.accept(new GamePlayer(playerId, playerUuid, _userName, level, experience, cache, achievements, gems));
+                        int guild = result.getInt("guild");
+                        gp.accept(new GamePlayer(playerId, playerUuid, _userName, level, experience, cache, achievements, gems, guild));
                     }
                 } else {
                     addPlayer(uuid, userName);
@@ -151,6 +244,38 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @param id The player's id.
+     */
+    public String getNameById(int id) {
+        String query = new Query().Select().Field("username").From().Table("players").Where().Field("player_id").Equals().asInt(id).End().getQuery();
+        try (
+                PreparedStatement statement = getConnection().getDatabase().prepareStatement(query);
+                ResultSet result = statement.executeQuery();
+        ) {
+            return result.getString("username");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @param id The player's id.
+     */
+    public UUID getUuidById(int id) {
+        String query = new Query().Select().Field("uuid").From().Table("players").Where().Field("player_id").Equals().asInt(id).End().getQuery();
+        try (
+                PreparedStatement statement = getConnection().getDatabase().prepareStatement(query);
+                ResultSet result = statement.executeQuery();
+        ) {
+            return UUID.fromString(result.getString("uuid"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
