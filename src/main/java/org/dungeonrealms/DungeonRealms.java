@@ -15,7 +15,6 @@ import org.dungeonrealms.database.mysql.Database;
 import org.dungeonrealms.database.redis.NetCache;
 import org.dungeonrealms.game.Game;
 import org.dungeonrealms.listeners.PlayerEvents;
-import org.dungeonrealms.listeners.TempEvents;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

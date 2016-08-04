@@ -26,11 +26,19 @@ CREATE TABLE IF NOT EXISTS `player_achievements`
   time          BIGINT NOT NULL,
   PRIMARY KEY (ID)
 );
-
 CREATE TABLE IF NOT EXISTS `achievements`
 (
   ID              INT AUTO_INCREMENT,
   achievementName VARCHAR(20) NOT NULL,
   achievmentDesc  MEDIUMTEXT  NOT NULL,
+  PRIMARY KEY (ID)
+);
+CREATE TABLE IF NOT EXISTS `guild_invitations`
+(
+  ID       INT AUTO_INCREMENT,
+  guild_id INT         NOT NULL,
+  inviter  VARCHAR(16) NOT NULL,
+  invited  INT         NOT NULL,
+  time     BIGINT      NOT NULL,
   PRIMARY KEY (ID)
 );

@@ -27,14 +27,14 @@ public class WorldListener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (!event.getPlayer().isOnline()) {
+        if (!event.getPlayer().isOp()) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (!event.getPlayer().isOnline()) {
+        if (!event.getPlayer().isOp()) {
             event.setCancelled(true);
         }
     }
