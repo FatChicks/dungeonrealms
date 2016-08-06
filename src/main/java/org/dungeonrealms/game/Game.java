@@ -1,5 +1,7 @@
 package org.dungeonrealms.game;
 
+import org.bukkit.Bukkit;
+import org.dungeonrealms.api.events.GamePlayerLoadEvent;
 import org.dungeonrealms.database.mysql.Database;
 import org.dungeonrealms.game.achievement.GameAchievement;
 import org.dungeonrealms.game.player.GamePlayer;
@@ -36,6 +38,7 @@ public class Game {
 
     public static void addPlayer(UUID uuid, String userName) {
         players.put(uuid, Database.getInstance().getGamePlayer(uuid, userName));
+        Bukkit.getPluginManager().callEvent(new GamePlayerLoadEvent(getGamePlayer(uuid).getId(), getGamePlayer(uuid)));
     }
 
     public static void removePlayer(UUID uniqueId) {
