@@ -49,4 +49,16 @@ public class PlayerCache {
     public float getPitch() {
         return pitch;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerCache{" +
+                "world='" + world + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                ", yaw=" + yaw +
+                ", pitch=" + pitch +
+                '}';
+    }
 }

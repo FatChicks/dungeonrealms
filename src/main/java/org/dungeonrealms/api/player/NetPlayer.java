@@ -16,24 +16,6 @@ import org.dungeonrealms.game.player.PlayerCache;
 public interface NetPlayer extends ITargetable {
 
     /**
-     * Teleport the player to the last known location, stored in MySQL.
-     */
-    default void teleportLastPosition() {
-        GamePlayer gamePlayer = Game.getGamePlayer(getPlayer().getUniqueId());
-        PlayerCache c = gamePlayer.getCache();
-        getPlayer().teleport(new Location(Bukkit.getWorld(c.getWorld()), c.getX(), c.getY(), c.getZ(), c.getYaw(), c.getPitch()));
-    }
-
-    /**
-     * Sets the player's displayName and TabList Name.
-     */
-    default void setupName() {
-        GamePlayer gamePlayer = Game.getGamePlayer(getPlayer().getUniqueId());
-        getPlayer().setDisplayName(ChatColor.WHITE + getPlayer().getName() + " " + ChatColor.AQUA + "[Lvl. " + String.valueOf(gamePlayer.getLevel()) + "]");
-        getPlayer().setPlayerListName(ChatColor.GRAY + getPlayer().getName());
-    }
-
-    /**
      * @param kickMessage The message that prompts the player once they're kicked.
      */
     default void networkKick(String kickMessage) {

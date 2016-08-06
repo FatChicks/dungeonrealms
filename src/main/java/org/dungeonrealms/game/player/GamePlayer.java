@@ -1,7 +1,10 @@
 package org.dungeonrealms.game.player;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.dungeonrealms.game.Game;
 import org.dungeonrealms.game.achievement.GameAchievement;
 import org.dungeonrealms.game.chat.Chat;
 import org.dungeonrealms.game.chat.ChatType;
@@ -103,6 +106,25 @@ public class GamePlayer {
     }
 
     /**
+     * Teleport the player to the last known location, stored in MySQL.
+     */
+    public void teleportLastPosition() {
+        if(getCache() == null) {
+            System.out.println("GET CACHE IS NULL");
+        }
+        System.out.println(getCache().toString());
+        getPlayer().teleport(new Location(Bukkit.getWorld(getCache().getWorld()), getCache().getX(), getCache().getY(), getCache().getZ(), getCache().getYaw(), getCache().getPitch()));
+    }
+
+    /**
+     * Sets the player's displayName and TabList Name.
+     */
+    public void setupName() {
+        getPlayer().setDisplayName(ChatColor.WHITE + getPlayer().getName() + " " + ChatColor.AQUA + "[Lvl. " + String.valueOf(getLevel()) + "]");
+        getPlayer().setPlayerListName(ChatColor.GRAY + getPlayer().getName());
+    }
+
+    /**
      * @param achievement The achievement you're giving to the player.
      */
     public void addAchievement(GameAchievement achievement) {
@@ -140,6 +162,9 @@ public class GamePlayer {
      * @return Bukkit's player object, from the player's uuid.
      */
     private Player getPlayer() {
-        return Bukkit.getPlayer(getUuid());
+        if (Bukkit.getPlayer(getUserName()) == null) {
+            System.out.println("GET PLAYER IS NULL INSIDE GAME PLAYER!");
+        }
+        return Bukkit.getPlayer(getUserName());
     }
 }

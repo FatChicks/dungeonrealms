@@ -28,11 +28,14 @@ public class Game {
     }
 
     public static GamePlayer getGamePlayer(UUID uuid) {
+        if (players.get(uuid) == null) {
+            log.log(Level.SEVERE, "[Game] Returning Null GamePlayer Object ...");
+        }
         return players.get(uuid);
     }
 
     public static void addPlayer(UUID uuid, String userName) {
-        Database.getInstance().getGamePlayer(uuid, userName, gp -> players.put(uuid, gp));
+        players.put(uuid, Database.getInstance().getGamePlayer(uuid, userName));
     }
 
     public static void removePlayer(UUID uniqueId) {

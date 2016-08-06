@@ -7,6 +7,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 
 /**
  * Created by Dr. Nick Doran on 8/3/2016.
@@ -42,6 +43,13 @@ public class WorldListener {
     @EventHandler
     public void onDecay(LeavesDecayEvent event) {
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onWeather(WeatherChangeEvent event) {
+        if (event.toWeatherState()) {
+            event.setCancelled(true);
+        }
     }
 
 }

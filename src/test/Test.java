@@ -1,4 +1,6 @@
+import org.dungeonrealms.database.mysql.Database;
 import org.dungeonrealms.database.mysql.utils.Query;
+import org.dungeonrealms.game.player.PlayerCache;
 
 import java.util.UUID;
 import java.util.logging.Level;
@@ -12,11 +14,7 @@ public class Test {
     private static final Logger log = Logger.getLogger(Test.class.getName());
 
     public static void main(String[] args) {
-
-        UUID uuid = UUID.randomUUID();
-        String userName = "Shmozo";
-
-        String query = new Query().Insert().Into().Table("players").Parenthesis("uuid", "username").Values("'" + uuid.toString() + "'", "'" + userName + "'").End().getQuery();
+        String query = new Query().Select().All().From().Table("player_cache").Where().Field("player_id").Equals().asInt(12).End().getQuery();
         System.out.println(query);
     }
 
