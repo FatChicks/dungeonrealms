@@ -14,7 +14,7 @@ public class VirtualMarket {
     public void test() {
 
         execQuery(new MarketQuery[]{
-                new MarketQuery().Select().All().Where().CategoryEquals(ShopCategory.AXE).And().PriceGreaterThanEqual(20)
+                new MarketQuery().Select().All().From().Shops().Where().CategoryEquals(ShopCategory.AXE).And().PriceGreaterThanEqual(20)
         });
 
     }

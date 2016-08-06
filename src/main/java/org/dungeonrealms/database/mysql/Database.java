@@ -94,11 +94,9 @@ public class Database {
                     return;
                 }
 
-                while (result.next()) {
-                    guild.setTag(result.getString("tag"));
-                    guild.setVault(IOUtils.itemListFromString(result.getString("vault")));
-                    guild.setGems(result.getInt("gems"));
-                }
+                guild.setTag(result.getString("tag"));
+                guild.setVault(IOUtils.itemListFromString(result.getString("vault")));
+                guild.setGems(result.getInt("gems"));
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -149,11 +147,9 @@ public class Database {
                     return;
                 }
 
-                while (result.next()) {
-                    boolean notifyLogin = result.getBoolean("notifyLogin");
-                    boolean notifyLoginSound = result.getBoolean("notifyLoginSound");
-                    guild.setGuildSettings(new GuildSettings(notifyLogin, notifyLoginSound));
-                }
+                boolean notifyLogin = result.getBoolean("notifyLogin");
+                boolean notifyLoginSound = result.getBoolean("notifyLoginSound");
+                guild.setGuildSettings(new GuildSettings(notifyLogin, notifyLoginSound));
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -199,28 +195,17 @@ public class Database {
         ) {
             if (result.next()) {
                 log.log(Level.INFO, "[Database] Fetching {0}'s MySQL Data ...", uuid.toString());
-                int playerId = 0;
-                UUID playerUuid = null;
-                String _userName = "";
-                int level = 0;
-                double experience = 0.0;
-                PlayerCache cache;
-                List<GameAchievement> achievements;
-                int gems = 0;
-                int guild = -1;
-                RankType rankType = RankType.NONE;
-                while (result.next()) {
-                    playerId = result.getInt("player_id");
-                    playerUuid = UUID.fromString(result.getString("uuid"));
-                    _userName = result.getString("username");
-                    level = result.getInt("level");
-                    experience = result.getDouble("experience");
-                    gems = result.getInt("gems");
-                    guild = result.getInt("guild");
-                    rankType = RankType.getByName(result.getString("rank"));
-                }
-                cache = getPlayerCache(playerId);
-                achievements = getPlayerAchievements(playerId);
+                int playerId = result.getInt("player_id");
+                UUID playerUuid = UUID.fromString(result.getString("uuid"));
+                String _userName = result.getString("username");
+                int level = result.getInt("level");
+                double experience = result.getDouble("experience");
+                int gems = result.getInt("gems");
+                int guild = result.getInt("guild");
+                RankType rankType = RankType.getByName(result.getString("rank"));
+
+                PlayerCache cache = getPlayerCache(playerId);
+                List<GameAchievement> achievements = getPlayerAchievements(playerId);
                 return new GamePlayer(playerId, playerUuid, _userName, level, experience, cache, achievements, gems, guild, rankType);
             } else {
                 log.log(Level.INFO, "[Database] Player {0} doesn't exist, inserting player into databse..", uuid.toString());
@@ -351,21 +336,14 @@ public class Database {
                 ResultSet result = statement.executeQuery();
         ) {
             if (result.next()) {
-                System.out.println("EXIST");
-                String world = "world";
-                double x = 970.538, y = 32, z = -180.331;
-                float yaw = 70.5f, pitch = -2.1f;
-                while (result.next()) {
-                    world = result.getString("world");
-                    x = result.getDouble("x");
-                    y = result.getDouble("y");
-                    z = result.getDouble("z");
-                    yaw = result.getFloat("yaw");
-                    pitch = result.getFloat("pitch");
-                }
+                String world = result.getString("world");
+                double x = result.getDouble("x");
+                double y = result.getDouble("y");
+                double z = result.getDouble("z");
+                float yaw = result.getFloat("yaw");
+                float pitch = result.getFloat("pitch");
                 return new PlayerCache(world, x, y, z, yaw, pitch);
             }
-            System.out.println("PAST THE RETURN");
         } catch (SQLException e) {
             e.printStackTrace();
         }

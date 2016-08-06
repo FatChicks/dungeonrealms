@@ -2,6 +2,7 @@ package org.dungeonrealms.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
@@ -12,7 +13,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 /**
  * Created by Dr. Nick Doran on 8/3/2016.
  */
-public class WorldListener {
+public class WorldListener implements Listener {
 
     @EventHandler
     public void onExplode(EntityExplodeEvent event) {

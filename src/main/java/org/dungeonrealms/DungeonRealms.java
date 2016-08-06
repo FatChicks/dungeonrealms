@@ -15,6 +15,7 @@ import org.dungeonrealms.database.mysql.Database;
 import org.dungeonrealms.database.redis.NetCache;
 import org.dungeonrealms.game.Game;
 import org.dungeonrealms.listeners.PlayerEvents;
+import org.dungeonrealms.listeners.WorldListener;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,8 @@ import java.util.logging.Logger;
  * Created by Dr. Nick Doran on 5/19/2016.
  */
 public class DungeonRealms extends JavaPlugin {
+
+    public static String BUILD = "31w16y Build #12";
 
     private static final Logger log = Logger.getLogger(DungeonRealms.class.getName());
     private static NetCache netCache;
@@ -55,6 +58,7 @@ public class DungeonRealms extends JavaPlugin {
         //This listener will be removed.
         //Using this to stop actions on 7the map whilst
         //Testing.
+        pm.registerEvents(new WorldListener(), this);
         pm.registerEvents(new PlayerEvents(), this);
 
         getCommand("dungeonrealms").setExecutor(new CommandDungeonRealms());

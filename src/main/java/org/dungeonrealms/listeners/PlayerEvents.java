@@ -14,6 +14,7 @@ import org.dungeonrealms.DungeonRealms;
 import org.dungeonrealms.api.player.NetPlayer;
 import org.dungeonrealms.game.Game;
 import org.dungeonrealms.game.player.GamePlayer;
+import org.dungeonrealms.game.player.prompt.Prompt;
 
 /**
  * Created by Dr. Nick Doran on 8/2/2016.
@@ -29,11 +30,11 @@ public class PlayerEvents implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(DungeonRealms.getInstance(), () -> {
-            GamePlayer gamePlayer = Game.getGamePlayer(event.getPlayer().getUniqueId());
-            gamePlayer.setupName();
-            gamePlayer.teleportLastPosition();
-        }, 20 * 3);
+        event.setJoinMessage(null);
+        GamePlayer gamePlayer = Game.getGamePlayer(event.getPlayer().getUniqueId());
+        gamePlayer.setupName();
+        gamePlayer.teleportLastPosition();
+        Prompt.welcomeMessage(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -43,6 +44,7 @@ public class PlayerEvents implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onQuit(PlayerQuitEvent event) {
+        event.setQuitMessage(null);
         Game.removePlayer(event.getPlayer().getUniqueId());
     }
 

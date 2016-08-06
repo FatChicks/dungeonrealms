@@ -82,6 +82,11 @@ public class MarketQuery {
         return this;
     }
 
+    public MarketQuery Shops() {
+        query += Table("shops");
+        return this;
+    }
+
     public MarketQuery CategoryEquals(ShopCategory category) {
         query += "category" + " " + "=" + " ";
         query += "'" + category.getName() + "'";

@@ -22,7 +22,7 @@ public class BarUtils {
     public static void init() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(DungeonRealms.getInstance(), () -> {
 
-            Bukkit.getOnlinePlayers().stream().forEach(player -> {
+            Bukkit.getOnlinePlayers().forEach(player -> {
                 sendActionBar(player, ChatColor.AQUA.toString() + ChatColor.BOLD + "LVL 1" +
                         ChatColor.BLACK + " - " +
                         ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "HP 100/100"

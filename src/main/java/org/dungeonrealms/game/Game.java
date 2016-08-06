@@ -42,7 +42,8 @@ public class Game {
     }
 
     public static void removePlayer(UUID uniqueId) {
-        //todo: remove player
+        //todo: saving
+        players.remove(uniqueId);
     }
 
     public static GameAchievement getAchievementById(int id) {
