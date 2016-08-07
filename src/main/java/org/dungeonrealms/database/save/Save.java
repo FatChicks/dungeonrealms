@@ -4,9 +4,7 @@ import org.bukkit.Bukkit;
 import org.dungeonrealms.DungeonRealms;
 import org.dungeonrealms.database.mysql.Database;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,12 +21,22 @@ public class Save {
     public static void init() {
         log.log(Level.INFO, "[Save] Starting scheduled Task ...");
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(DungeonRealms.getInstance(), () -> Bukkit.getOnlinePlayers().forEach(player -> {
-            for (Update u : playerUpdates.get(player.getUniqueId())) {
-                Database.getInstance().execUpdate(u);
-                playerUpdates.get(player.getUniqueId()).remove(u);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (!Bukkit.getOnlinePlayers().isEmpty()) {
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        if (playerUpdates.containsKey(player.getUniqueId())) {
+                            for (Update u : playerUpdates.get(player.getUniqueId())) {
+                                Database.getInstance().execUpdate(u);
+                                playerUpdates.get(player.getUniqueId()).remove(u);
+                            }
+                        }
+                    });
+                }
             }
-        }), 0, 20 * 15);
+        }, 0, 1000);
 
     }
 

@@ -28,12 +28,20 @@ public class PlayerUpdate {
         return this;
     }
 
+    public PlayerUpdate TargetId(int playerId) {
+        query += "WHERE player_id=" + playerId + " ";
+        return this;
+    }
+
     public PlayerUpdate End() {
         query += ";";
         return this;
     }
 
     public String getUpdate() {
+        if (!query.contains(";")) {
+            End();
+        }
         return query;
     }
 
