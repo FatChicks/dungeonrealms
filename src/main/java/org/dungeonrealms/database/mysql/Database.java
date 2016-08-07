@@ -325,12 +325,10 @@ public class Database {
                 ResultSet result = statement.executeQuery();
         ) {
             List<GameAchievement> temp = new ArrayList<>();
-            if (result.next()) {
-                while (result.next()) {
-                    int achievementId = result.getInt("achievementId");
-                    //long time = result.getLong("time");
-                    temp.add(Game.getAchievementById(achievementId));
-                }
+            while (result.next()) {
+                int achievementId = result.getInt("achievementId");
+                //long time = result.getLong("time");
+                temp.add(Game.getAchievementById(achievementId));
             }
             return temp;
         } catch (SQLException e) {
