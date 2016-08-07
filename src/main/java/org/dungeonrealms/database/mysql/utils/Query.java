@@ -11,6 +11,11 @@ public class Query {
         query = "";
     }
 
+    public Query And() {
+        query += "AND" + " ";
+        return this;
+    }
+
     public Query Parenthesis(Object... obj) {
         query += "(";
         for (Object o : obj) {
@@ -79,6 +84,15 @@ public class Query {
 
     public Query Field(Object par1) {
         query += par1 + " ";
+        return this;
+    }
+
+    public Query Fields(Object... obj) {
+        for (Object o : obj) {
+            query += o + ",";
+        }
+        query = query.endsWith(",") ? query.substring(0, query.lastIndexOf(",")) : query;
+        query += " ";
         return this;
     }
 

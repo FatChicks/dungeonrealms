@@ -24,16 +24,12 @@ public class Save {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (!Bukkit.getOnlinePlayers().isEmpty()) {
-                    Bukkit.getOnlinePlayers().forEach(player -> {
-                        if (playerUpdates.containsKey(player.getUniqueId())) {
-                            for (Update u : playerUpdates.get(player.getUniqueId())) {
-                                log.log(Level.INFO, "[Save] Executing Save | {0}, {1}", new Object[]{u.getPlayerId(), u.getPlayerUpdate().getQuery()});
-                                Database.getInstance().execUpdate(u);
-                                playerUpdates.get(player.getUniqueId()).remove(u);
-                            }
-                        }
-                    });
+                for (Map.Entry<UUID, CopyOnWriteArrayList<Update>> e : playerUpdates.entrySet()) {
+                    for (Update u : e.getValue()) {
+                        log.log(Level.INFO, "[Save] Executing Save | {0}, {1}", new Object[]{u.getPlayerId(), u.getPlayerUpdate().getQuery()});
+                        Database.getInstance().execUpdate(u);
+                        e.getValue().remove(u);
+                    }
                 }
             }
         }, 0, 1000);
