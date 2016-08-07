@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.dungeonrealms.DungeonRealms;
 import org.dungeonrealms.database.mysql.utils.Query;
 import org.dungeonrealms.database.mysql.utils.ScriptRunner;
+import org.dungeonrealms.database.save.Update;
 import org.dungeonrealms.game.Game;
 import org.dungeonrealms.game.achievement.GameAchievement;
 import org.dungeonrealms.game.guild.Guild;
@@ -73,6 +74,21 @@ public class Database {
         }
 
         log.info("[Database] Table(s) integrity has been verified ... OKAY");
+    }
+
+    /**
+     * @param update The update object you're executing.
+     */
+    public void execUpdate(Update update) {
+        pool.submit(() -> {
+            try (
+                    PreparedStatement statement = getConnection().getDatabase().prepareStatement(update.getPlayerUpdate().getUpdate());
+            ) {
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -203,12 +219,11 @@ public class Database {
                 int gems = result.getInt("gems");
                 int guild = result.getInt("guild");
                 RankType rankType = RankType.getByName(result.getString("rank"));
-
                 PlayerCache cache = getPlayerCache(playerId);
                 List<GameAchievement> achievements = getPlayerAchievements(playerId);
                 return new GamePlayer(playerId, playerUuid, _userName, level, experience, cache, achievements, gems, guild, rankType);
             } else {
-                log.log(Level.INFO, "[Database] Player {0} doesn't exist, inserting player into databse..", uuid.toString());
+                log.log(Level.INFO, "[Database] Player {0} doesn't exist, inserting player into database..", uuid.toString());
                 addPlayer(uuid, userName);
                 addPlayerCache(userName);
                 return getGamePlayer(uuid, userName);
@@ -329,7 +344,6 @@ public class Database {
      * @return The player's PlayerCache object, as it is in MySQL.
      */
     private PlayerCache getPlayerCache(int playerId) {
-        System.out.println("PLAYER CACHE GETTING ID: " + playerId);
         String query = new Query().Select().All().From().Table("player_cache").Where().Field("player_id").Equals().asInt(playerId).End().getQuery();
         try (
                 PreparedStatement statement = getConnection().getDatabase().prepareStatement(query);

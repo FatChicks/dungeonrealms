@@ -9,6 +9,10 @@ public class PlayerUpdate {
 
     private String query;
 
+    public PlayerUpdate() {
+        query = "";
+    }
+
     public PlayerUpdate Update() {
         query += "UPDATE" + " ";
         return this;

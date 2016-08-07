@@ -13,6 +13,7 @@ import org.dungeonrealms.commands.CommandNotify;
 import org.dungeonrealms.commands.CommandTeleport;
 import org.dungeonrealms.database.mysql.Database;
 import org.dungeonrealms.database.redis.NetCache;
+import org.dungeonrealms.database.save.Save;
 import org.dungeonrealms.game.Game;
 import org.dungeonrealms.listeners.PlayerEvents;
 import org.dungeonrealms.listeners.WorldListener;
@@ -70,6 +71,8 @@ public class DungeonRealms extends JavaPlugin {
         nmsVers = nmsVers.substring(nmsVers.lastIndexOf(".") + 1);
 
         BarUtils.init();//TODO: Remove
+
+        Save.init();
 
     }
 

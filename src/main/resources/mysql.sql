@@ -20,6 +20,13 @@ CREATE TABLE IF NOT EXISTS `player_cache`
   yaw       FLOAT       NOT NULL DEFAULT 70.5,
   pitch     FLOAT       NOT NULL DEFAULT -2.1
 );
+CREATE TABLE IF NOT EXISTS `player_settings`
+(
+  player_id         INT  NOT NULL,
+  chatNotifications BOOL NOT NULL DEFAULT TRUE,
+  friendRequests    BOOL NOT NULL DEFAULT TRUE,
+  PRIMARY KEY (player_id)
+);
 CREATE TABLE IF NOT EXISTS `player_achievements`
 (
   ID            INT AUTO_INCREMENT,
@@ -65,4 +72,13 @@ CREATE TABLE IF NOT EXISTS `guild_settings`
   guild_id         INT NOT NULL,
   notifyLogin      BOOL DEFAULT TRUE,
   notifyLoginSound BOOL DEFAULT TRUE
+);
+CREATE TABLE IF NOT EXISTS `friend_notifications`
+(
+  ID         INT AUTO_INCREMENT,
+  senderId   INT                    NOT NULL,
+  receiverId INT                    NOT NULL,
+  type       ENUM ('add', 'remove') NOT NULL,
+  time       BIGINT                 NOT NULL,
+  PRIMARY KEY (ID)
 );
