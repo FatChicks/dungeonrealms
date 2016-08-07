@@ -9,3 +9,5 @@ redis:
     host: "localhost"
     port: 6379
     preventTimeout: true
+discord:
+    token: "asdfasdfasdf"

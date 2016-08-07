@@ -9,8 +9,15 @@ public class Test {
     private static final Logger log = Logger.getLogger(Test.class.getName());
 
     public static void main(String[] args) {
-        String query = new PlayerUpdate().Update().Gems(23).TargetUuid(UUID.randomUUID()).End().getUpdate();
-        System.out.println(query);
+
+        String command = "!help Shmozo";
+
+        String[] lines = command.split(" ");
+
+        System.out.println(lines.length);
+
+        System.out.println(command.split(" ")[1]);
+
     }
 
 }

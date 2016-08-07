@@ -26,7 +26,6 @@ public class Save {
             public void run() {
                 for (Map.Entry<UUID, CopyOnWriteArrayList<Update>> e : playerUpdates.entrySet()) {
                     for (Update u : e.getValue()) {
-                        log.log(Level.INFO, "[Save] Executing Save | {0}, {1}", new Object[]{u.getPlayerId(), u.getPlayerUpdate().getQuery()});
                         Database.getInstance().execUpdate(u);
                         e.getValue().remove(u);
                     }
