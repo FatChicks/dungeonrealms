@@ -82,7 +82,7 @@ public class Database {
     public void execUpdate(Update update) {
         pool.submit(() -> {
             try (
-                    PreparedStatement statement = getConnection().getDatabase().prepareStatement(update.getPlayerUpdate().getUpdate());
+                    PreparedStatement statement = getConnection().getDatabase().prepareStatement(update.getPlayerUpdate().getQuery());
             ) {
                 statement.executeUpdate();
             } catch (SQLException e) {
@@ -177,27 +177,27 @@ public class Database {
     }
 
     /**
-     * @param ga A list of server achievements.
+     * @return The list of possible GameAchievements
      */
-    public void getServerAchievements(Consumer<List<GameAchievement>> ga) {
-        pool.submit(() -> {
-            String query = new Query().Select().All().From().Table("achievements").End().getQuery();
-            try (
-                    PreparedStatement statement = getConnection().getDatabase().prepareStatement(query);
-                    ResultSet result = statement.executeQuery();
-            ) {
-                List<GameAchievement> gaList = new ArrayList<>();
-                while (result.next()) {
-                    int id = result.getInt("ID");
-                    String achievementName = result.getString("achievementName");
-                    String achievementDescription = result.getString("achievementDesc");
-                    gaList.add(new GameAchievement(id, achievementName, achievementDescription.split("|")));
-                }
-                ga.accept(gaList);
-            } catch (SQLException e) {
-                e.printStackTrace();
+    public List<GameAchievement> getServerAchievements() {
+        String query = new Query().Select().All().From().Table("achievements").End().getQuery();
+        try (
+                PreparedStatement statement = getConnection().getDatabase().prepareStatement(query);
+                ResultSet result = statement.executeQuery();
+        ) {
+            List<GameAchievement> gaList = new ArrayList<>();
+            while (result.next()) {
+                int id = result.getInt("ID");
+                String achievementName = result.getString("achievementName");
+                String achievementDescription = result.getString("achievementDesc");
+                gaList.add(new GameAchievement(id, achievementName, achievementDescription.split("|")));
+                log.log(Level.INFO, "[Database] Fetching Achievement: {0} With name {1}", new Object[]{id, achievementName});
             }
-        });
+            return gaList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -319,7 +319,7 @@ public class Database {
      * @return A list of the player's achievements.
      */
     private List<GameAchievement> getPlayerAchievements(int playerId) {
-        String query = new Query().Select().Values("achievementId").From().Table("player_achievements").Where().Field("player_id").Equals().asInt(playerId).End().getQuery();
+        String query = new Query().Select().Field("achievementId").From().Table("player_achievements").Where().Field("player_id").Equals().asInt(playerId).End().getQuery();
         try (
                 PreparedStatement statement = getConnection().getDatabase().prepareStatement(query);
                 ResultSet result = statement.executeQuery();

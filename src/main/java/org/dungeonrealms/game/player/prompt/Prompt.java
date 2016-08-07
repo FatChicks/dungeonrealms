@@ -1,8 +1,10 @@
 package org.dungeonrealms.game.player.prompt;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.dungeonrealms.DungeonRealms;
+import org.dungeonrealms.game.achievement.GameAchievement;
 
 import java.util.Arrays;
 
@@ -10,6 +12,15 @@ import java.util.Arrays;
  * Created by Dr. Nick Doran on 8/6/2016.
  */
 public class Prompt {
+
+    /**
+     * @param player      The player that received the achievement.
+     * @param achievement The achievement the player received.
+     */
+    public static void achievement(Player player, GameAchievement achievement) {
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1f, 63f);
+        player.sendMessage(ChatColor.DARK_AQUA + ">> Achievement Unlocked" + ChatColor.GRAY + ":" + ChatColor.DARK_AQUA + " `" + ChatColor.GRAY + achievement.getAchievementName() + ChatColor.DARK_AQUA + "`" + ChatColor.GRAY + "!");
+    }
 
     /**
      * @param player The player you're sending the message to.
@@ -69,5 +80,4 @@ public class Prompt {
             player.sendMessage(sb.toString() + s);
         }
     }
-
 }

@@ -1,10 +1,4 @@
-import org.dungeonrealms.database.mysql.Database;
-import org.dungeonrealms.database.mysql.utils.Query;
-import org.dungeonrealms.database.save.PlayerUpdate;
-import org.dungeonrealms.game.player.PlayerCache;
-
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**

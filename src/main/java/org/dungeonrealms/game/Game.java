@@ -24,9 +24,7 @@ public class Game {
 
     public static void GetPrerequisites() {
         log.log(Level.INFO, "[Game] Getting Prerequisites ... Starting");
-        Database.getInstance().getServerAchievements(sa -> sa.forEach(a -> {
-            achievements.put(a.getId(), a);
-        }));
+        Database.getInstance().getServerAchievements().forEach(a -> achievements.put(a.getId(), a));
     }
 
     public static GamePlayer getGamePlayer(UUID uuid) {

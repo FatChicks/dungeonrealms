@@ -1,5 +1,7 @@
 package org.dungeonrealms.database.save;
 
+import org.dungeonrealms.database.mysql.utils.Query;
+
 /**
  * Created by Dr. Nick Doran on 8/6/2016.
  */
@@ -7,8 +9,20 @@ public class Update {
 
     private int playerId;
     private UpdateType updateType;
-    private PlayerUpdate playerUpdate;
+    private Query playerUpdate;
     private long invoked;
+
+    /**
+     * @param playerId The player's id
+     * @param updateType The type of update.
+     * @param playerUpdate The playerUpdate object.
+     */
+    public Update(int playerId, UpdateType updateType, Query playerUpdate) {
+        this.playerId = playerId;
+        this.updateType = updateType;
+        this.playerUpdate = playerUpdate;
+        this.invoked = System.currentTimeMillis();
+    }
 
     /**
      * @param playerId The player's id
@@ -16,7 +30,7 @@ public class Update {
      * @param playerUpdate The playerUpdate object.
      * @param invoked The epochTime of invocation.
      */
-    public Update(int playerId, UpdateType updateType, PlayerUpdate playerUpdate, long invoked) {
+    public Update(int playerId, UpdateType updateType, Query playerUpdate, long invoked) {
         this.playerId = playerId;
         this.updateType = updateType;
         this.playerUpdate = playerUpdate;
@@ -31,7 +45,7 @@ public class Update {
         return updateType;
     }
 
-    public PlayerUpdate getPlayerUpdate() {
+    public Query getPlayerUpdate() {
         return playerUpdate;
     }
 

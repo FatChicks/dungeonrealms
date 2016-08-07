@@ -108,6 +108,7 @@ public class Query {
     }
 
     public String getQuery() {
+        System.out.println(query);
         return query.trim();
     }
 

@@ -1,7 +1,6 @@
 package org.dungeonrealms.database.save;
 
 import org.bukkit.Bukkit;
-import org.dungeonrealms.DungeonRealms;
 import org.dungeonrealms.database.mysql.Database;
 
 import java.util.*;
@@ -29,6 +28,7 @@ public class Save {
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         if (playerUpdates.containsKey(player.getUniqueId())) {
                             for (Update u : playerUpdates.get(player.getUniqueId())) {
+                                log.log(Level.INFO, "[Save] Executing Save | {0}, {1}", new Object[]{u.getPlayerId(), u.getPlayerUpdate().getQuery()});
                                 Database.getInstance().execUpdate(u);
                                 playerUpdates.get(player.getUniqueId()).remove(u);
                             }

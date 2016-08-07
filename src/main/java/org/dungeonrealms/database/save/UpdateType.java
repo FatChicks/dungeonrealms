@@ -8,6 +8,7 @@ public enum UpdateType {
     LOCATION,
     INVENTORY,
     GEMS,
-    GUILD
+    GUILD,
+    ACHIEVEMENT
 
 }

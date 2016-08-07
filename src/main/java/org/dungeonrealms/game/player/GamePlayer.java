@@ -4,10 +4,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.dungeonrealms.database.mysql.utils.Query;
+import org.dungeonrealms.database.save.Save;
+import org.dungeonrealms.database.save.Update;
+import org.dungeonrealms.database.save.UpdateType;
 import org.dungeonrealms.game.Game;
 import org.dungeonrealms.game.achievement.GameAchievement;
 import org.dungeonrealms.game.chat.Chat;
 import org.dungeonrealms.game.chat.ChatType;
+import org.dungeonrealms.game.player.prompt.Prompt;
 import org.dungeonrealms.game.rank.RankType;
 
 import java.util.List;
@@ -130,6 +135,10 @@ public class GamePlayer {
     public void addAchievement(GameAchievement achievement) {
         if (!getAchievements().contains(achievement)) {
             this.achievements.add(achievement);
+            Save.cacheUpdate(getUuid(), new Update(getId(), UpdateType.ACHIEVEMENT,
+                    new Query().Insert().Into().Table("player_achievements").Parenthesis("player_id", "achievementId", "time").Values(getId(), achievement.getId(), System.currentTimeMillis())
+                    ));
+            Prompt.achievement(getPlayer(), achievement);
         }
     }
 
